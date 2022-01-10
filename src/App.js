@@ -98,7 +98,21 @@ function Rings() {
           />
         </Torus>
       </group>
-      <group ref={ref2} position-y={1.27}></group>
+      <group ref={ref2} position-y={1.27}>
+        <Torus castShadow args={[1, 0.2, 64, 64]} rotation-x={-Math.PI / 2.8}>
+          <meshPhysicalMaterial
+            color="#a19266"
+            metalness={1}
+            roughness={1}
+            aoMap={ao}
+            normalMap={normal}
+            normalScale={[4, 4]}
+            displacementMap={height}
+            displacementScale={0.01}
+            roughnessMap={roughness}
+          />
+        </Torus>
+      </group>
     </group>
   );
 }
