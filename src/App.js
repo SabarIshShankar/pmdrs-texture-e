@@ -55,3 +55,50 @@ function Floor() {
     </Reflector>
   );
 }
+
+function Rings() {
+  const ref1 = useRef();
+  const ref2 = useRef();
+  const textures = useTexture([
+    "/ao.jpg",
+    "normal.jpg",
+    "/height.png",
+    "/roughness.jpg"
+  ]);
+
+  const [ao, normal, height, roughness] = textures;
+  useLayoutEffect(() => {
+    textures.forEach(
+      (texture) => (
+        (texture.wrapT = texture.wraps = THREE.RepeatWrapping),
+        texture.repeat.set(4, 4)
+      )
+    );
+  }, [textures]);
+
+  useFrame(() => {
+    ref1.current.rotation.y += 0.05;
+    ref2.current.rotation.y += 0.05;
+  });
+
+  return (
+    <group position-y={0.66}>
+      <group ref={ref1}>
+        <Torus castShadow args={[1, 0.2, 64, 64]} rotation-x={Math.PI / 2.8}>
+          <meshPhysicalMaterial
+            color="#a19266"
+            metalness={1}
+            roughness={1}
+            aoMap={a}
+            normalMap={normal}
+            normalScale={[4, 4]}
+            displacementMap={height}
+            displacementScale={0.01}
+            roughnessMap={roughness}
+          />
+        </Torus>
+      </group>
+      <group ref={ref2} position-y={1.27}></group>
+    </group>
+  );
+}
