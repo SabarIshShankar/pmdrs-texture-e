@@ -4,7 +4,6 @@ import { Canvas, useFrame } from "react-three-fiber";
 import { RectAreaLightUniformsLib } from "three/examples/jsm/lights/RectAreaLightUniformsLib.js";
 import { OrbitControls, Torus, Loader } from "@react-three/drei";
 import { Reflector, useTexture, Environment } from "@react-three/drei";
-import { Footer } from "@pmndrs/branding";
 RectAreaLightUniformsLib.init();
 
 function Floor() {
@@ -25,7 +24,7 @@ function Floor() {
   }, [textures]);
   return (
     <Reflector
-      resolution={1024}
+      resolution={480}
       receiveShadow
       mirror={0.25}
       blur={[250, 250]}
@@ -61,7 +60,7 @@ function Rings() {
   const ref2 = useRef();
   const textures = useTexture([
     "/ao.jpg",
-    "normal.jpg",
+    "/normal.jpg",
     "/height.png",
     "/roughness.jpg"
   ]);
@@ -83,25 +82,11 @@ function Rings() {
 
   return (
     <group position-y={0.66}>
-      <group ref={ref1}>
-        <Torus castShadow args={[1, 0.2, 64, 64]} rotation-x={Math.PI / 2.8}>
-          <meshPhysicalMaterial
-            color="#a19266"
-            metalness={1}
-            roughness={1}
-            aoMap={ao}
-            normalMap={normal}
-            normalScale={[4, 4]}
-            displacementMap={height}
-            displacementScale={0.01}
-            roughnessMap={roughness}
-          />
-        </Torus>
-      </group>
+      <group ref={ref1}></group>
       <group ref={ref2} position-y={1.27}>
-        <Torus castShadow args={[1, 0.2, 64, 64]} rotation-x={-Math.PI / 2.8}>
+        <Torus castShadow args={[1, 0.5, 64, 128]} rotation-x={-Math.PI / 2.8}>
           <meshPhysicalMaterial
-            color="#a19266"
+            color="#f34"
             metalness={1}
             roughness={1}
             aoMap={ao}
@@ -121,13 +106,13 @@ export default function App() {
   return (
     <>
       <Canvas pixelRatio={[1, 1.5]} camera={{ position: [0, 1, 15], fov: 20 }}>
-        <fog attach="fog" args={["#e5e5e5", 10, 50]} />
+        <fog attach="fog" args={["#f3e", 10, 50]} />
         <Suspense fallback={null}>
           <ambientLight intensity={0.1} />
           <spotLight
             castShadow
             position={[0, 20, 20]}
-            intensity={6}
+            intensity={10}
             penumbra={1}
             anglge={Math.PI / 3}
             decay={2}
@@ -138,12 +123,11 @@ export default function App() {
           />
           <rectAreaLight
             intensity={0.5}
-            args={["turquoise", 8, 8, 8]}
+            args={["red", 8, 8, 8]}
             position={[0, -0.99, 0]}
             rotation-x={Math.PI / 2}
           />
-          <group position-y={-1}>
-            <Floor />
+          <group position-y={-1.5}>
             <Rings />
           </group>
           <Environment preset="dawn" />
